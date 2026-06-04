@@ -108,7 +108,7 @@ sgc log --graph         # 图形化显示分支历史
 
 输出示例：
 
-```
+```text
 📜 最近 10 条提交记录
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   abc1234  feat(auth) 新增登录功能
@@ -152,7 +152,7 @@ sgc branch delete       # 交互式删除分支（支持 --force 强制删除）
 
 **创建分支示例：**
 
-```
+```text
 🌿 创建新分支
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 选择分支前缀：
@@ -182,7 +182,7 @@ sgc hook check          # 检查 hook 安装状态
 
 安装后，不符合 Conventional Commits 格式的提交将被拒绝：
 
-```
+```text
 ❌ Commit message 格式不符合规范！
 
 要求的格式：type(scope): description
