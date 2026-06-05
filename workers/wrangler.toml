@@ -1,0 +1,30 @@
+# ============ Cloudflare Worker 配置文件 ============
+# 部署代码审查 Webhook 服务
+#
+# 使用步骤：
+# 1. 安装 wrangler CLI: npm install -g wrangler
+# 2. 登录 Cloudflare: wrangler login
+# 3. 配置 AI API Key（选其一）：
+#    - wrangler secret put OPENAI_API_KEY
+#    - wrangler secret put DASHSCOPE_API_KEY
+# 4. 配置平台 API Token（用于发评论）：
+#    - wrangler secret put GITHUB_TOKEN    # GitHub Personal Access Token
+#    - wrangler secret put GITLAB_TOKEN    # GitLab Personal Access Token
+#    - wrangler secret put GITEE_TOKEN     # Gitee Personal Access Token
+# 5. 部署: wrangler deploy
+# 6. 在平台的仓库设置中添加 Webhook URL: https://xxx.workers.dev
+
+name = "git-review-bot"
+main = "review-webhook.js"
+compatibility_date = "2025-01-01"
+
+# 可选：自定义 AI 配置
+[vars]
+# AI 模型名称（默认 qwen-turbo，可改为 gpt-4o-mini 等）
+# AI_MODEL = "qwen-turbo"
+# AI API 地址（默认通义千问，可改为 OpenAI 地址）
+# AI_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+# 生产环境配置（可选）
+# [env.production]
+# name = "git-review-bot-prod"
