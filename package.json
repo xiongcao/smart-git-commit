@@ -1,6 +1,6 @@
 {
   "name": "@xiongcao/smart-git-commit",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "智能 Git 提交助手 - 自动检测修改并生成 Conventional Commits 格式的提交日志，支持分支管理、提交历史查看、AI 代码审查等功能",
   "main": "index.js",
   "bin": {
@@ -25,7 +25,9 @@
   },
   "files": [
     "index.js",
-    "lib/"
+    "lib/",
+    "README.md",
+    "README_EN.md"
   ],
   "repository": {
     "type": "git",

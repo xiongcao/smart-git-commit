@@ -2,7 +2,7 @@
 
 智能 Git 提交助手 —— 自动检测修改并生成 [Conventional Commits](https://www.conventionalcommits.org/) 规范的提交信息，同时提供分支管理、提交历史查看、Hook 校验等一站式 Git 工作流工具。
 
-> 中文 | [English](./README_EN.md)
+> 中文 | [English](https://github.com/xiongcao/smart-git-commit/blob/master/README_EN.md)
 
 ## 安装
 

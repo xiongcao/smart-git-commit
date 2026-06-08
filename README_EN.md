@@ -2,7 +2,7 @@
 
 Smart Git Commit Assistant — automatically detects changes and generates [Conventional Commits](https://www.conventionalcommits.org/) compliant commit messages, along with branch management, commit history viewing, hook validation, and other all-in-one Git workflow tools.
 
-> [中文](./README.md) | English
+> [中文](https://github.com/xiongcao/smart-git-commit/blob/master/README.md) | English
 
 ## Installation
 
