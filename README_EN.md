@@ -26,6 +26,8 @@ Once installed, you can use the `sgc` command in any Git repository.
 | `sgc branch create` | Create a branch with standardized prefix |
 | `sgc branch switch` | Interactively switch branches |
 | `sgc branch delete` | Interactively delete branches |
+| `sgc push` | Push to all remotes at once (multi-platform) |
+| `sgc push --force` | Force push to all remotes |
 | `sgc review <target>` | AI code review (local) |
 | `sgc init` | Initialize config file `.sgcrc.json` |
 | `sgc hook install` | Install commit-msg validation hook |
@@ -219,11 +221,59 @@ Config file contents and description:
   "defaultType": "feat",       // Default commit type
   "typeRules": [...],          // File matching rules
   "commitTypes": [...],        // Available commit types
-  "branchPrefixes": {...}      // Branch prefix mappings
+  "branchPrefixes": {...},     // Branch prefix mappings
+  "language": "zh",            // Commit message language
+  "pushRemotes": []            // Remote list for multi-platform push (empty = auto-detect)
 }
 ```
 
 Config priority: **Project-level `.sgcrc.json` > Global `~/.sgcrc.json` > Default config**
+
+---
+
+### 7. Multi-Platform Push — `sgc push`
+
+When your repository is hosted on multiple platforms (e.g., GitHub + Gitee), `sgc push` can push to all remotes at once, eliminating the tedious step-by-step manual pushes.
+
+**Auto-Detect Mode** (default):
+
+No configuration needed — `sgc push` automatically detects all remotes and pushes to each one:
+
+```bash
+sgc push
+```
+
+Sample output:
+
+```text
+🚀 Start Pushing
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Branch: master
+  Target: github (https://github.com/...), origin (https://gitee.com/...)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/2] Pushing to github/master ...
+[2/2] Pushing to origin/master ...
+
+✅ Push successful (all 2 remotes)
+```
+
+**Preset Remotes:**
+
+To push only to specific remotes, configure `pushRemotes` in `.sgcrc.json`:
+
+```json
+{
+  "pushRemotes": ["github", "origin"]
+}
+```
+
+**Passing Through Arguments:**
+
+```bash
+sgc push --force        # Force push
+sgc push --set-upstream # Set upstream branch
+```
 
 ---
 
@@ -339,6 +389,7 @@ smart-git-commit/
 │       ├── log.js        # Commit history
 │       ├── status.js     # Repository status
 │       ├── review.js     # Local review command
+│       ├── push.js        # Multi-platform push
 │       ├── branch.js     # Branch management
 │       ├── hook.js       # Hook management
 │       └── init.js       # Initialize config

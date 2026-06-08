@@ -26,6 +26,8 @@ npm install -g @xiongcao/smart-git-commit
 | `sgc branch create` | 创建带规范前缀的分支 |
 | `sgc branch switch` | 交互式切换分支 |
 | `sgc branch delete` | 交互式删除分支 |
+| `sgc push` | 一键推送到所有远程仓库（多平台） |
+| `sgc push --force` | 强制推送到所有远程仓库 |
 | `sgc review <target>` | AI 代码审查（本地） |
 | `sgc init` | 初始化配置文件 `.sgcrc.json` |
 | `sgc hook install` | 安装 commit-msg 校验 hook |
@@ -219,11 +221,59 @@ sgc init
   "defaultType": "feat",       // 默认 commit 类型
   "typeRules": [...],          // 文件匹配规则
   "commitTypes": [...],        // 可选 commit 类型列表
-  "branchPrefixes": {...}      // 分支前缀映射
+  "branchPrefixes": {...},     // 分支前缀映射
+  "language": "zh",            // 生成信息语言
+  "pushRemotes": []            // 多平台推送的远程仓库列表（空=自动检测）
 }
 ```
 
 配置优先级：**项目级 `.sgcrc.json` > 全局级 `~/.sgcrc.json` > 默认配置**
+
+---
+
+### 7. 多平台推送 —— `sgc push`
+
+当你的仓库同时托管在多个平台（如 GitHub + Gitee），`sgc push` 可以一键推送到所有远程仓库，省去逐平台推送的繁琐步骤。
+
+**自动检测模式**（默认）：
+
+无需任何配置，`sgc push` 会自动检测当前仓库的所有远程仓库并全部推送：
+
+```bash
+sgc push
+```
+
+输出示例：
+
+```text
+🚀 开始推送
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  分支: master
+  目标: github (https://github.com/...), origin (https://gitee.com/...)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[1/2] 推送到 github/master ...
+[2/2] 推送到 origin/master ...
+
+✅ 推送成功 (全部 2 个远程仓库)
+```
+
+**预设远程仓库：**
+
+如果只想推送到指定的远程仓库（某些远程不需要推送），在 `.sgcrc.json` 中配置 `pushRemotes`：
+
+```json
+{
+  "pushRemotes": ["github", "origin"]
+}
+```
+
+**支持透传参数：**
+
+```bash
+sgc push --force       # 强制推送
+sgc push --set-upstream # 设置上游分支
+```
 
 ---
 
@@ -339,6 +389,7 @@ smart-git-commit/
 │       ├── log.js        # 提交历史
 │       ├── status.js     # 仓库状态
 │       ├── review.js     # 本地审查命令
+│       ├── push.js        # 多平台推送
 │       ├── branch.js     # 分支管理
 │       ├── hook.js       # Hook 管理
 │       └── init.js       # 初始化配置
