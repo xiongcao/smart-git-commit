@@ -460,7 +460,7 @@ function ask(question, defaultValue) {
 
 // 使用示例
 const name = await ask('你的名字: ');
-const confirm = await ask('确认提交？[y/N] ');
+const confirm = await ask('确认提交？[y/n] ');
 if (confirm.toLowerCase() === 'y') {
   // 执行提交
 }

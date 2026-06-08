@@ -24,6 +24,7 @@ npm install -g @xiongcao/smart-git-commit
 | `sgc branch create` | 创建带规范前缀的分支 |
 | `sgc branch switch` | 交互式切换分支 |
 | `sgc branch delete` | 交互式删除分支 |
+| `sgc review <target>` | AI 代码审查（本地） |
 | `sgc init` | 初始化配置文件 `.sgcrc.json` |
 | `sgc hook install` | 安装 commit-msg 校验 hook |
 | `sgc hook uninstall` | 卸载 hook |
@@ -262,26 +263,125 @@ sgc --ai                # 使用 AI 生成提交信息
 
 ---
 
+## 代码审查（AI Review）
+
+通过 AI 自动审查代码变更，支持本地命令行和 Webhook 自动触发两种方式。
+
+### 本地审查 —— `sgc review`
+
+在本地通过命令行审查两个分支之间的代码差异：
+
+```bash
+# 审查当前分支相对于 main 的变更
+sgc review main
+
+# 审查指定分支
+sgc review feat-login --target main
+```
+
+**审查内容包括：**
+
+- 逻辑错误和潜在 Bug
+- 安全漏洞（SQL 注入、XSS 等）
+- 性能问题和优化建议
+- 代码可维护性（命名规范、重复代码等）
+- 边界条件和异常处理
+
+审查报告会按严重程度分级展示，并给出具体的代码修改建议（含行号定位）。
+
+### 自动审查（Webhook）
+
+将代码审查部署为 Cloudflare Worker，在 GitHub/Gitee/GitLab 上 **创建 PR/MR 时自动触发 AI 审查**，无需自有服务器。
+
+**工作原理：**
+
+```
+创建 PR/MR → 平台 Webhook 通知 → Cloudflare Worker
+    → 获取代码 diff → AI 审查 → 自动发布行内评论
+```
+
+**特点：**
+
+- **免费**：Cloudflare Workers 免费额度每天 10 万次请求
+- **多平台**：一套代码同时支持 GitHub、Gitee、GitLab
+- **行内评论**：AI 建议精确到具体代码行
+- **零运维**：部署后全自动运行
+
+**快速部署：**
+
+```bash
+cd workers
+wrangler deploy
+```
+
+详细部署指南见 [DEPLOY.md](./DEPLOY.md)。
+
+---
+
 ## 项目结构
 
 ```
 smart-git-commit/
 ├── index.js              # 主入口，命令路由
 ├── package.json          # 注册 sgc 全局命令
-└── lib/
-    ├── colors.js         # ANSI 终端颜色工具
-    ├── git.js            # Git 命令封装
-    ├── config.js         # 配置管理
-    ├── generator.js      # Commit message 规则生成器
-    ├── ai.js             # AI 模式（OpenAI 兼容接口）
-    ├── prompt.js         # 交互工具
-    └── commands/
-        ├── commit.js     # 提交流程
-        ├── log.js        # 提交历史
-        ├── status.js     # 仓库状态
-        ├── branch.js     # 分支管理
-        ├── hook.js       # Hook 管理
-        └── init.js       # 初始化配置
+├── lib/
+│   ├── colors.js         # ANSI 终端颜色工具
+│   ├── git.js            # Git 命令封装
+│   ├── config.js         # 配置管理
+│   ├── generator.js      # Commit message 规则生成器
+│   ├── ai.js             # AI 模式（OpenAI 兼容接口）
+│   ├── reviewer.js       # 代码审查（AI 分析 + 报告生成）
+│   ├── prompt.js         # 交互工具
+│   └── commands/
+│       ├── commit.js     # 提交流程
+│       ├── log.js        # 提交历史
+│       ├── status.js     # 仓库状态
+│       ├── review.js     # 本地审查命令
+│       ├── branch.js     # 分支管理
+│       ├── hook.js       # Hook 管理
+│       └── init.js       # 初始化配置
+└── workers/
+    ├── review-webhook.js # Webhook 自动审查 Worker
+    └── wrangler.toml     # Cloudflare Worker 配置
+```
+
+## 开发与发布
+
+### 发布到 npm
+
+```bash
+# 1. 更新版本号（修改 package.json 中的 version 字段）
+# 2. 登录 npm（仅首次需要）
+npm login --registry https://registry.npmjs.org
+
+# 3. 发布
+npm publish --access public --registry https://registry.npmjs.org
+
+# 4. 如果开启了 OTP 两步验证，需要带上验证码
+npm publish --access public --registry https://registry.npmjs.org --otp=<验证码>
+```
+
+### 更新 sgc
+
+发布新版本后，用户执行以下命令更新：
+
+```bash
+npm update -g @xiongcao/smart-git-commit
+```
+
+或重新安装：
+
+```bash
+npm install -g @xiongcao/smart-git-commit
+```
+
+### 部署 Webhook Worker
+
+修改 `workers/review-webhook.js` 后，重新部署：
+
+```bash
+cd workers
+wrangler deploy
 ```
 
 ## License
