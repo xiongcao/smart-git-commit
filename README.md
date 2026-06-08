@@ -223,7 +223,7 @@ sgc init
   "commitTypes": [...],        // 可选 commit 类型列表
   "branchPrefixes": {...},     // 分支前缀映射
   "language": "zh",            // 生成信息语言
-  "pushRemotes": []            // 多平台推送的远程仓库列表（空=自动检测，过滤仓库名）
+  "pushRemotes": []            // 多平台推送的远程仓库列表（空=默认推送 origin）
 }
 ```
 
@@ -237,7 +237,7 @@ sgc init
 
 **自动检测模式**（默认）：
 
-无需任何配置，`sgc push` 会自动检测当前仓库的所有远程仓库，并过滤掉不属于当前仓库的 remote（通过 URL 中的仓库名匹配），然后全部推送：
+无需任何配置，`sgc push` 默认只推送到 `origin`：
 
 ```bash
 sgc push
@@ -258,9 +258,9 @@ sgc push
 ✅ 推送成功 (全部 2 个远程仓库)
 ```
 
-**预设远程仓库：**
+**多平台推送：**
 
-如需手动指定要推送的远程仓库（跳过自动检测），在 `.sgcrc.json` 中配置 `pushRemotes`：
+如需同时推送到多个平台，在 `.sgcrc.json` 中配置 `pushRemotes`：
 
 ```json
 {
