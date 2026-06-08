@@ -10,6 +10,11 @@ Smart Git Commit Assistant — automatically detects changes and generates [Conv
 npm install -g @xiongcao/smart-git-commit
 ```
 
+### Update
+```bash
+npm update -g @xiongcao/smart-git-commit
+```
+
 Once installed, you can use the `sgc` command in any Git repository.
 
 ## Command Overview
@@ -396,45 +401,6 @@ smart-git-commit/
 └── workers/
     ├── review-webhook.js # Webhook auto-review Worker
     └── wrangler.toml     # Cloudflare Worker config
-```
-
-## Development & Publishing
-
-### Publish to npm
-
-```bash
-# 1. Update version number (modify the version field in package.json)
-# 2. Login to npm (first time only)
-npm login --registry https://registry.npmjs.org
-
-# 3. Publish
-npm publish --access public --registry https://registry.npmjs.org
-
-# 4. If OTP 2FA is enabled, include the verification code
-npm publish --access public --registry https://registry.npmjs.org --otp=<code>
-```
-
-### Update sgc
-
-After publishing a new version, users can update with:
-
-```bash
-npm update -g @xiongcao/smart-git-commit
-```
-
-Or reinstall:
-
-```bash
-npm install -g @xiongcao/smart-git-commit
-```
-
-### Deploy Webhook Worker
-
-After modifying `workers/review-webhook.js`, redeploy:
-
-```bash
-cd workers
-wrangler deploy
 ```
 
 ## License

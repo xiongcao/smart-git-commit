@@ -10,6 +10,12 @@
 npm install -g @xiongcao/smart-git-commit
 ```
 
+### 更新
+
+```bash
+npm update -g @xiongcao/smart-git-commit
+```
+
 安装后即可在任意 Git 仓库中使用 `sgc` 命令。
 
 ## 命令概览
@@ -396,45 +402,6 @@ smart-git-commit/
 └── workers/
     ├── review-webhook.js # Webhook 自动审查 Worker
     └── wrangler.toml     # Cloudflare Worker 配置
-```
-
-## 开发与发布
-
-### 发布到 npm
-
-```bash
-# 1. 更新版本号（修改 package.json 中的 version 字段）
-# 2. 登录 npm（仅首次需要）
-npm login --registry https://registry.npmjs.org
-
-# 3. 发布
-npm publish --access public --registry https://registry.npmjs.org
-
-# 4. 如果开启了 OTP 两步验证，需要带上验证码
-npm publish --access public --registry https://registry.npmjs.org --otp=<验证码>
-```
-
-### 更新 sgc
-
-发布新版本后，用户执行以下命令更新：
-
-```bash
-npm update -g @xiongcao/smart-git-commit
-```
-
-或重新安装：
-
-```bash
-npm install -g @xiongcao/smart-git-commit
-```
-
-### 部署 Webhook Worker
-
-修改 `workers/review-webhook.js` 后，重新部署：
-
-```bash
-cd workers
-wrangler deploy
 ```
 
 ## License
