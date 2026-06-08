@@ -223,7 +223,7 @@ sgc init
   "commitTypes": [...],        // 可选 commit 类型列表
   "branchPrefixes": {...},     // 分支前缀映射
   "language": "zh",            // 生成信息语言
-  "pushRemotes": []            // 多平台推送的远程仓库列表（空=自动检测）
+  "pushRemotes": []            // 多平台推送的远程仓库列表（空=自动检测，过滤仓库名）
 }
 ```
 
@@ -237,7 +237,7 @@ sgc init
 
 **自动检测模式**（默认）：
 
-无需任何配置，`sgc push` 会自动检测当前仓库的所有远程仓库并全部推送：
+无需任何配置，`sgc push` 会自动检测当前仓库的所有远程仓库，并过滤掉不属于当前仓库的 remote（通过 URL 中的仓库名匹配），然后全部推送：
 
 ```bash
 sgc push
@@ -249,7 +249,7 @@ sgc push
 🚀 开始推送
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   分支: master
-  目标: github (https://github.com/...), origin (https://gitee.com/...)
+  目标: github (https://github.com/user/workflow.git), origin (https://gitee.com/user/workflow.git)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [1/2] 推送到 github/master ...
@@ -260,11 +260,11 @@ sgc push
 
 **预设远程仓库：**
 
-如果只想推送到指定的远程仓库（某些远程不需要推送），在 `.sgcrc.json` 中配置 `pushRemotes`：
+如需手动指定要推送的远程仓库（跳过自动检测），在 `.sgcrc.json` 中配置 `pushRemotes`：
 
 ```json
 {
-  "pushRemotes": ["github", "origin"]
+  "pushRemotes": ["origin", "github"]
 }
 ```
 

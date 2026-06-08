@@ -223,7 +223,7 @@ Config file contents and description:
   "commitTypes": [...],        // Available commit types
   "branchPrefixes": {...},     // Branch prefix mappings
   "language": "zh",            // Commit message language
-  "pushRemotes": []            // Remote list for multi-platform push (empty = auto-detect)
+  "pushRemotes": []            // Remote list for multi-platform push (empty = auto-detect, filter by repo name)
 }
 ```
 
@@ -237,7 +237,7 @@ When your repository is hosted on multiple platforms (e.g., GitHub + Gitee), `sg
 
 **Auto-Detect Mode** (default):
 
-No configuration needed — `sgc push` automatically detects all remotes and pushes to each one:
+No configuration needed — `sgc push` automatically detects all remotes and filters out those that don't belong to the current repo (matched by repo name in URL):
 
 ```bash
 sgc push
@@ -249,7 +249,7 @@ Sample output:
 🚀 Start Pushing
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Branch: master
-  Target: github (https://github.com/...), origin (https://gitee.com/...)
+  Target: github (https://github.com/user/workflow.git), origin (https://gitee.com/user/workflow.git)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 [1/2] Pushing to github/master ...
@@ -260,11 +260,11 @@ Sample output:
 
 **Preset Remotes:**
 
-To push only to specific remotes, configure `pushRemotes` in `.sgcrc.json`:
+To manually specify which remotes to push (skip auto-detection), configure `pushRemotes` in `.sgcrc.json`:
 
 ```json
 {
-  "pushRemotes": ["github", "origin"]
+  "pushRemotes": ["origin", "github"]
 }
 ```
 
