@@ -1,0 +1,49 @@
+{
+  "name": "@xiongcao/smart-git-commit",
+  "version": "1.1.3",
+  "description": "智能 Git 提交助手 - 自动检测修改并生成 Conventional Commits 格式的提交日志，支持分支管理、提交历史查看、AI 代码审查等功能",
+  "main": "index.js",
+  "bin": {
+    "sgc": "./index.js"
+  },
+  "scripts": {
+    "commit": "node index.js",
+    "commit:ai": "node index.js --ai",
+    "commit:auto": "node index.js --auto",
+    "commit:dry": "node index.js --dry-run",
+    "log": "node index.js log",
+    "log:graph": "node index.js log --graph",
+    "status": "node index.js status",
+    "branch": "node index.js branch",
+    "branch:create": "node index.js branch create",
+    "branch:switch": "node index.js branch switch",
+    "branch:delete": "node index.js branch delete",
+    "init": "node index.js init",
+    "hook:install": "node index.js hook install",
+    "hook:uninstall": "node index.js hook uninstall",
+    "hook:check": "node index.js hook check"
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "README.md",
+    "README_EN.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiongcao/smart-git-commit"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "conventional-commits",
+    "changelog",
+    "cli",
+    "branch",
+    "hook",
+    "code-review",
+    "ai-review",
+    "webhook"
+  ],
+  "license": "MIT"
+}
