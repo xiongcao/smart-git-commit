@@ -223,7 +223,7 @@ Config file contents and description:
   "commitTypes": [...],        // Available commit types
   "branchPrefixes": {...},     // Branch prefix mappings
   "language": "zh",            // Commit message language
-  "pushRemotes": []            // Remote list for multi-platform push (empty = push origin only)
+  "pushRemotes": []            // Remote list for multi-platform push (empty = auto-detect all)
 }
 ```
 
@@ -237,7 +237,7 @@ When your repository is hosted on multiple platforms (e.g., GitHub + Gitee), `sg
 
 **Auto-Detect Mode** (default):
 
-No configuration needed — `sgc push` pushes to `origin` by default:
+No configuration needed — `sgc push` automatically detects all remotes and pushes to each one:
 
 ```bash
 sgc push
@@ -258,9 +258,9 @@ Sample output:
 ✅ Push successful (all 2 remotes)
 ```
 
-**Multi-Platform Push:**
+**Preset Remotes:**
 
-To push to multiple platforms simultaneously, configure `pushRemotes` in `.sgcrc.json`:
+To push only to specific remotes, configure `pushRemotes` in `.sgcrc.json`:
 
 ```json
 {
